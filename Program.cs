@@ -13,6 +13,7 @@ namespace LINQ_exercise
 
             var getTheNumbers = from number in numbers
                                 where number <=4
+                                orderby number
                                 select number;
 
             var catsWithA = from cat in catNames
