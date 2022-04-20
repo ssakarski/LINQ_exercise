@@ -8,6 +8,7 @@ namespace LINQ_exercise
     {
         static void Main(string[] args)
         {
+            //Grouping with lambda
             List<Person> people = new List<Person>()
             {
                 new Person("Tod",180,70,Gender.Male),
@@ -15,49 +16,102 @@ namespace LINQ_exercise
                 new Person("Anna",150,48,Gender.Female),
                 new Person("Kyle",164,77,Gender.Male),
                 new Person("Anna",164,77,Gender.Male),
-                new Person("Maria",16,55,Gender.Female),
+                new Person("Maria",160,55,Gender.Female),
                 new Person("John",160,55,Gender.Male),
             };
-            // grouping
-            var genderGroup = from p in people
-                              group p by p.Gender;
-
-            foreach (var person in genderGroup)
-            {
-                Console.WriteLine($"{person.Key}");
-                foreach (var p in person)
-                {
-                    Console.WriteLine($"    {p.Name} - {p.Gender}");
-                }
-            }
 
             // grouping by height
-            var groupByHeight = from p in people
-                             where p.Height > 160
-                             group p by p.Height;
+            var simpleGrouping = people.Where(p => p.Height > 150)
+                                       .GroupBy(p => p.Gender);
 
-            foreach (var person in groupByHeight)
+            foreach (var p in simpleGrouping)
             {
-                Console.WriteLine($"{person.Key}");
-                foreach (var p in person)
+                Console.WriteLine($"{p.Key}");
+                foreach (var item in p)
                 {
-                    Console.WriteLine($"    {p.Name} - {p.Height}");
+                    Console.WriteLine($"    {item.Name} - {item.Height} - {item.Gender}");
+                }
+            }
+            Console.WriteLine();
+
+
+            // grouping by first letter
+            var alphabeticalGroup = people.OrderBy(p => p.Name)
+                                          .GroupBy(p => p.Name[0]);
+
+            foreach (var p in alphabeticalGroup)
+            {
+                Console.WriteLine($"{p.Key}");
+                foreach (var item in p)
+                {
+                    Console.WriteLine($"    {item.Name}");
+                }
+            }
+            Console.WriteLine();
+
+
+            //multi key groups - name / gender
+            var multiKeyGroup = people.GroupBy(p => new { p.Name, p.Gender }).OrderBy(p => p.Count());
+
+            foreach (var p in multiKeyGroup)
+            {
+                Console.WriteLine($"{p.Key}");
+                foreach (var item in p)
+                {
+                    Console.WriteLine($"    {item.Name}");
                 }
             }
 
-            //grouping by first letter of the name
-            var groupByFirstLetter = from p in people
-                                     orderby p.Name
-                                     group p by p.Name[0];
+            //List<Person> people = new List<Person>()
+            //{
+            //    new Person("Tod",180,70,Gender.Male),
+            //    new Person("John",170,88,Gender.Male),
+            //    new Person("Anna",150,48,Gender.Female),
+            //    new Person("Kyle",164,77,Gender.Male),
+            //    new Person("Anna",164,77,Gender.Male),
+            //    new Person("Maria",160,55,Gender.Female),
+            //    new Person("John",160,55,Gender.Male),
+            //};
+            //// grouping
+            //var genderGroup = from p in people
+            //                  group p by p.Gender;
 
-            foreach (var person in groupByFirstLetter)
-            {
-                Console.WriteLine($"{person.Key}");
-                foreach (var p in person)
-                {
-                    Console.WriteLine($"    {p.Name}");
-                }
-            }
+            //foreach (var person in genderGroup)
+            //{
+            //    Console.WriteLine($"{person.Key}");
+            //    foreach (var p in person)
+            //    {
+            //        Console.WriteLine($"    {p.Name} - {p.Gender}");
+            //    }
+            //}
+
+            //// grouping by height
+            //var groupByHeight = from p in people
+            //                 where p.Height > 160
+            //                 group p by p.Height;
+
+            //foreach (var person in groupByHeight)
+            //{
+            //    Console.WriteLine($"{person.Key}");
+            //    foreach (var p in person)
+            //    {
+            //        Console.WriteLine($"    {p.Name} - {p.Height}");
+            //    }
+            //}
+
+            ////grouping by first letter of the name
+            //var groupByFirstLetter = from p in people
+            //                         orderby p.Name
+            //                         group p by p.Name[0];
+
+            //foreach (var person in groupByFirstLetter)
+            //{
+            //    Console.WriteLine($"{person.Key}");
+            //    foreach (var p in person)
+            //    {
+            //        Console.WriteLine($"    {p.Name}");
+            //    }
+            //}
 
             //string[] catNames = { "Lucky", "Bella", "Luna", "Oreo", "Simba", "Toby", "Loki", "Oscar" };
             //List<int> numbers = new List<int>(){ 5, 6, 3, 2, 1, 5, 6, 7, 8, 4, 234, 54, 13, 653, 3, 4, 5, 6, 7 };
@@ -91,7 +145,7 @@ namespace LINQ_exercise
             //    new Person("Anna",150,48,Gender.Female),
             //    new Person("Kyle",164,77,Gender.Male),
             //    new Person("Anna",164,77,Gender.Male),
-            //    new Person("Maria",16,55,Gender.Female),
+            //    new Person("Maria",160,55,Gender.Female),
             //    new Person("John",160,55,Gender.Male),
             //};
 
