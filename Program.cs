@@ -8,60 +8,64 @@ namespace LINQ_exercise
     {
         static void Main(string[] args)
         {
-            //Grouping with lambda
-            List<Person> people = new List<Person>()
-            {
-                new Person("Tod",180,70,Gender.Male),
-                new Person("John",170,88,Gender.Male),
-                new Person("Anna",150,48,Gender.Female),
-                new Person("Kyle",164,77,Gender.Male),
-                new Person("Anna",164,77,Gender.Male),
-                new Person("Maria",160,55,Gender.Female),
-                new Person("John",160,55,Gender.Male),
-            };
+            //Collection filtering by type of items
+            object[] mix = { 1, "string", 'd', new List<int>() { 1, 2, 3, 4 }, new List<int>() { 5, 2, 3, 4 }, "dd",'s',"Hello Kitty",1,2,3,4 };
 
-            // grouping by height
-            var simpleGrouping = people.Where(p => p.Height > 150)
-                                       .GroupBy(p => p.Gender);
+            var allIntegers = mix.OfType<int>();
 
-            foreach (var p in simpleGrouping)
-            {
-                Console.WriteLine($"{p.Key}");
-                foreach (var item in p)
-                {
-                    Console.WriteLine($"    {item.Name} - {item.Height} - {item.Gender}");
-                }
-            }
+            var allListsOfInt = mix.OfType<List<int>>();
+
+            Console.WriteLine(string.Join(", ",allIntegers));
             Console.WriteLine();
-
-
-            // grouping by first letter
-            var alphabeticalGroup = people.OrderBy(p => p.Name)
-                                          .GroupBy(p => p.Name[0]);
-
-            foreach (var p in alphabeticalGroup)
+            // lists of ints
+            foreach (var num in allListsOfInt)
             {
-                Console.WriteLine($"{p.Key}");
-                foreach (var item in p)
-                {
-                    Console.WriteLine($"    {item.Name}");
-                }
-            }
-            Console.WriteLine();
-
-
-            //multi key groups - name / gender
-            var multiKeyGroup = people.GroupBy(p => new { p.Name, p.Gender }).OrderBy(p => p.Count());
-
-            foreach (var p in multiKeyGroup)
-            {
-                Console.WriteLine($"{p.Key}");
-                foreach (var item in p)
-                {
-                    Console.WriteLine($"    {item.Name}");
-                }
+                Console.WriteLine(string.Join(", ",num));
             }
 
+
+
+            ////Join operation
+            //List<Buyer> buyers = new List<Buyer>()
+            //{
+            //    new Buyer(){ Name = "Johny", District = "Fantasy District", Age = 22},
+            //    new Buyer(){ Name = "Peter", District = "Scientists District", Age = 40},
+            //    new Buyer(){ Name = "Paul", District = "Fantasy District", Age = 30},
+            //    new Buyer(){ Name = "Maria", District = "Scientists District", Age = 35},
+            //    new Buyer(){ Name = "Joshua", District = "EarthIsFlat District", Age = 40},
+            //    new Buyer(){ Name = "Sylvia", District = "Developers District", Age = 22},
+            //    new Buyer(){ Name = "Rebecca", District = "Scientists District", Age = 30},
+            //    new Buyer(){ Name = "Jaime", District = "Developers District", Age = 35},
+            //    new Buyer(){ Name = "Pierce", District = "Fantasy District", Age = 40}
+            //};
+
+            //List<Supplier> suppliers = new List<Supplier>()
+            //{
+            //    new Supplier(){ Name = "Harrison", District = "Fantasy District", Age = 22},
+            //    new Supplier(){ Name = "Charles", District = "Developers District", Age = 40},
+            //    new Supplier(){ Name = "Hailee", District = "Scientists District", Age = 35},
+            //    new Supplier(){ Name = "Taylor", District = "EarthIsFlat District", Age = 30}
+            //};
+
+            //var innerJoin = from s in suppliers
+            //                join b in buyers on s.District equals b.District
+            //                select new
+            //                {
+            //                    SupplierName = s.Name,
+            //                    BuyerName = b.Name,
+            //                    District = s.District
+            //                };
+            //foreach (var item in innerJoin)
+            //{
+            //    Console.WriteLine($"{item.District}");
+            //    Console.WriteLine($"Supplier: {item.SupplierName} - Buyer: {item.BuyerName}");
+            //}
+
+
+
+
+
+            ////Grouping with lambda
             //List<Person> people = new List<Person>()
             //{
             //    new Person("Tod",180,70,Gender.Male),
@@ -72,7 +76,64 @@ namespace LINQ_exercise
             //    new Person("Maria",160,55,Gender.Female),
             //    new Person("John",160,55,Gender.Male),
             //};
-            //// grouping
+
+            //// grouping by height
+            //var simpleGrouping = people.Where(p => p.Height > 150)
+            //                           .GroupBy(p => p.Gender);
+
+            //foreach (var p in simpleGrouping)
+            //{
+            //    Console.WriteLine($"{p.Key}");
+            //    foreach (var item in p)
+            //    {
+            //        Console.WriteLine($"    {item.Name} - {item.Height} - {item.Gender}");
+            //    }
+            //}
+            //Console.WriteLine();
+
+
+            //// grouping by first letter
+            //var alphabeticalGroup = people.OrderBy(p => p.Name)
+            //                              .GroupBy(p => p.Name[0]);
+
+            //foreach (var p in alphabeticalGroup)
+            //{
+            //    Console.WriteLine($"{p.Key}");
+            //    foreach (var item in p)
+            //    {
+            //        Console.WriteLine($"    {item.Name}");
+            //    }
+            //}
+            //Console.WriteLine();
+
+
+            ////multi key groups - name / gender
+            //var multiKeyGroup = people.GroupBy(p => new { p.Name, p.Gender }).OrderBy(p => p.Count());
+
+            //foreach (var p in multiKeyGroup)
+            //{
+            //    Console.WriteLine($"{p.Key}");
+            //    foreach (var item in p)
+            //    {
+            //        Console.WriteLine($"    {item.Name}");
+            //    }
+            //}
+
+
+
+
+            //// Grouping
+            //List<Person> people = new List<Person>()
+            //{
+            //    new Person("Tod",180,70,Gender.Male),
+            //    new Person("John",170,88,Gender.Male),
+            //    new Person("Anna",150,48,Gender.Female),
+            //    new Person("Kyle",164,77,Gender.Male),
+            //    new Person("Anna",164,77,Gender.Male),
+            //    new Person("Maria",160,55,Gender.Female),
+            //    new Person("John",160,55,Gender.Male),
+            //};
+
             //var genderGroup = from p in people
             //                  group p by p.Gender;
 
@@ -113,6 +174,12 @@ namespace LINQ_exercise
             //    }
             //}
 
+
+
+
+
+
+            ////Lambda queries
             //string[] catNames = { "Lucky", "Bella", "Luna", "Oreo", "Simba", "Toby", "Loki", "Oscar" };
             //List<int> numbers = new List<int>(){ 5, 6, 3, 2, 1, 5, 6, 7, 8, 4, 234, 54, 13, 653, 3, 4, 5, 6, 7 };
             //object[] mix = { 1, "string", 'd', new List<int>() { 1, 2, 3, 4 }, new List<int>() { 5, 2, 3, 4 }, "dd"};
@@ -160,6 +227,9 @@ namespace LINQ_exercise
 
 
 
+
+
+            ////Basic linq queries
             //string sentence = "I love cats";
             //string[] catNames = { "Lucky", "Bella", "Luna", "Oreo", "Simba", "Toby", "Loki", "Oscar" };
             //int[] numbers = { 5, 6, 3, 2, 1, 5, 6, 7, 8, 4, 234, 54, 13, 653, 3, 4, 5, 6, 7 };
@@ -177,7 +247,19 @@ namespace LINQ_exercise
             //Console.WriteLine(string.Join(", ", catsWithA));
         }
     }
+    internal class Supplier
+    {
+        public int Age { get; set; }
+        public string District { get; set; }
+        public string Name { get; set; }
+    }
 
+    internal class Buyer
+    {
+        public int Age { get; set; }
+        public string District { get; set; }
+        public string Name { get; set; }
+    }
     internal class Warrior
     {
         public int Height { get; set; }
