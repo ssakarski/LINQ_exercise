@@ -8,30 +8,81 @@ namespace LINQ_exercise
     {
         static void Main(string[] args)
         {
-            string[] catNames = { "Lucky", "Bella", "Luna", "Oreo", "Simba", "Toby", "Loki", "Oscar" };
-            List<int> numbers = new List<int>(){ 5, 6, 3, 2, 1, 5, 6, 7, 8, 4, 234, 54, 13, 653, 3, 4, 5, 6, 7 };
-            object[] mix = { 1, "string", 'd', new List<int>() { 1, 2, 3, 4 }, new List<int>() { 5, 2, 3, 4 }, "dd"};
-            List<Warrior> war = new List<Warrior>()
+            List<Person> people = new List<Person>()
             {
-                new Warrior(){Height = 100},
-                new Warrior(){Height = 80},
-                new Warrior(){Height = 100},
-                new Warrior(){Height = 70}
+                new Person("Tod",180,70,Gender.Male),
+                new Person("John",170,88,Gender.Male),
+                new Person("Anna",150,48,Gender.Female),
+                new Person("Kyle",164,77,Gender.Male),
+                new Person("Anna",164,77,Gender.Male),
+                new Person("Maria",16,55,Gender.Female),
+                new Person("John",160,55,Gender.Male),
             };
+            // grouping
+            var genderGroup = from p in people
+                              group p by p.Gender;
 
-            var oddNumbers = from n in numbers
-                             where n % 2 == 1
-                             select n;
+            foreach (var person in genderGroup)
+            {
+                Console.WriteLine($"{person.Key}");
+                foreach (var p in person)
+                {
+                    Console.WriteLine($"    {p.Name} - {p.Gender}");
+                }
+            }
 
-            // doing the same but with lambda expression
-            var oddNums = numbers.Where(n => (n % 2 == 1));
-            Console.WriteLine(string.Join(", ", oddNums));
+            // grouping by height
+            var groupByHeight = from p in people
+                             where p.Height > 160
+                             group p by p.Height;
 
-            List<int> war100 = war.Where(w => w.Height == 100)
-                                  .Select(w => w.Height)
-                                  .ToList();
-            //foreach in lambda - works only for lists
-            war100.ForEach(w => Console.WriteLine(w));
+            foreach (var person in groupByHeight)
+            {
+                Console.WriteLine($"{person.Key}");
+                foreach (var p in person)
+                {
+                    Console.WriteLine($"    {p.Name} - {p.Height}");
+                }
+            }
+
+            //grouping by first letter of the name
+            var groupByFirstLetter = from p in people
+                                     orderby p.Name
+                                     group p by p.Name[0];
+
+            foreach (var person in groupByFirstLetter)
+            {
+                Console.WriteLine($"{person.Key}");
+                foreach (var p in person)
+                {
+                    Console.WriteLine($"    {p.Name}");
+                }
+            }
+
+            //string[] catNames = { "Lucky", "Bella", "Luna", "Oreo", "Simba", "Toby", "Loki", "Oscar" };
+            //List<int> numbers = new List<int>(){ 5, 6, 3, 2, 1, 5, 6, 7, 8, 4, 234, 54, 13, 653, 3, 4, 5, 6, 7 };
+            //object[] mix = { 1, "string", 'd', new List<int>() { 1, 2, 3, 4 }, new List<int>() { 5, 2, 3, 4 }, "dd"};
+            //List<Warrior> war = new List<Warrior>()
+            //{
+            //    new Warrior(){Height = 100},
+            //    new Warrior(){Height = 80},
+            //    new Warrior(){Height = 100},
+            //    new Warrior(){Height = 70}
+            //};
+
+            //var oddNumbers = from n in numbers
+            //                 where n % 2 == 1
+            //                 select n;
+
+            //// doing the same but with lambda expression
+            //var oddNums = numbers.Where(n => (n % 2 == 1));
+            //Console.WriteLine(string.Join(", ", oddNums));
+
+            //List<int> war100 = war.Where(w => w.Height == 100)
+            //                      .Select(w => w.Height)
+            //                      .ToList();
+            ////foreach in lambda - works only for lists
+            //war100.ForEach(w => Console.WriteLine(w));
 
             //List<Person> people = new List<Person>()
             //{
